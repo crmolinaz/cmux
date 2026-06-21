@@ -6527,8 +6527,16 @@ final class AppDelegate: NSObject, NSApplicationDelegate, UNUserNotificationCent
             NSSound.beep()
             return
         }
-        let entries = TerminalCommandHistoryRecorder.load(surfaceID: surfaceId)
-        CommandHistoryWindowController.shared.show(entries: entries)
+        // Load history off the main thread: a tab can accumulate up to the
+        // per-surface cap, and decoding that JSON synchronously here would
+        // block the main actor on what is a user-triggered palette action.
+        // Present the window back on the main actor once decoding finishes.
+        Task { @MainActor in
+            let entries = await Task.detached(priority: .userInitiated) {
+                TerminalCommandHistoryRecorder.load(surfaceID: surfaceId)
+            }.value
+            CommandHistoryWindowController.shared.show(entries: entries)
+        }
     }
 
     private func focusedTerminalShortcutContext(preferredWindow: NSWindow? = nil) -> FocusedTerminalShortcutContext? {

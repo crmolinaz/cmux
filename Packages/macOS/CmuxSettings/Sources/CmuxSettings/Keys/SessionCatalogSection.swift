@@ -17,9 +17,9 @@ public struct SessionCatalogSection: SettingCatalogSection {
     )
 
     /// Whether each terminal tab keeps its own shell history (up-arrow /
-    /// Ctrl-R recall) namespaced by project directory, plus a recorded cmux
-    /// command history per tab. When off, tabs use the shell's normal global
-    /// history.
+    /// Ctrl-R recall) keyed by the tab's stable surface ID and restored when
+    /// the tab reopens, plus a recorded cmux command history per tab. When
+    /// off, tabs use the shell's normal global history.
     ///
     /// ```json
     /// { "session": { "persistShellHistory": true } }

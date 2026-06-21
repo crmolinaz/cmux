@@ -3,7 +3,8 @@ import SwiftUI
 
 /// **Sessions** section — controls how cmux restores a previous session on
 /// launch and whether each terminal tab keeps its own persistent shell
-/// history (grouped by project). Both settings are JSON-backed
+/// history (keyed by the tab's stable surface ID, restored when the tab
+/// reopens). Both settings are JSON-backed
 /// (`session.*` in `~/.config/cmux/cmux.json`).
 @MainActor
 public struct SessionSection: View {
@@ -71,7 +72,7 @@ public struct SessionSection: View {
             configurationReview: .json("session.persistShellHistory"),
             String(localized: "settings.session.persistShellHistory", defaultValue: "Per-Tab Shell History"),
             subtitle: persistShellHistory.current
-                ? String(localized: "settings.session.persistShellHistory.subtitleOn", defaultValue: "Each tab keeps its own command history (up-arrow / Ctrl-R), grouped by project, and records a cmux command history.")
+                ? String(localized: "settings.session.persistShellHistory.subtitleOn", defaultValue: "Each tab keeps its own command history (up-arrow / Ctrl-R), restored when you reopen it, plus a recorded cmux command history.")
                 : String(localized: "settings.session.persistShellHistory.subtitleOff", defaultValue: "Tabs use your shell's normal global history (e.g. ~/.zsh_history).")
         ) {
             Toggle("", isOn: Binding(get: { persistShellHistory.current }, set: { persistShellHistory.set($0) }))

@@ -51,7 +51,12 @@
           "items": {
             "type": "object",
             "additionalProperties": true,
-            "required": ["id", "name", "sessionIdSource", "resumeCommand"],
+            "required": [
+              "id",
+              "name",
+              "sessionIdSource",
+              "resumeCommand"
+            ],
             "properties": {
               "id": {
                 "type": "string",
@@ -77,10 +82,14 @@
                   },
                   "argvContains": {
                     "oneOf": [
-                      { "type": "string" },
+                      {
+                        "type": "string"
+                      },
                       {
                         "type": "array",
-                        "items": { "type": "string" }
+                        "items": {
+                          "type": "string"
+                        }
                       }
                     ],
                     "description": "Substring or substrings that must appear in the process argv."
@@ -96,11 +105,16 @@
                   {
                     "type": "object",
                     "additionalProperties": false,
-                    "required": ["type"],
+                    "required": [
+                      "type"
+                    ],
                     "properties": {
                       "type": {
                         "type": "string",
-                        "enum": ["argvOption", "piSessionFile"]
+                        "enum": [
+                          "argvOption",
+                          "piSessionFile"
+                        ]
                       },
                       "argvOption": {
                         "type": "string",
@@ -111,19 +125,31 @@
                       {
                         "if": {
                           "properties": {
-                            "type": { "const": "argvOption" }
+                            "type": {
+                              "const": "argvOption"
+                            }
                           }
                         },
-                        "then": { "required": ["argvOption"] }
+                        "then": {
+                          "required": [
+                            "argvOption"
+                          ]
+                        }
                       },
                       {
                         "if": {
                           "properties": {
-                            "type": { "const": "piSessionFile" }
+                            "type": {
+                              "const": "piSessionFile"
+                            }
                           }
                         },
                         "then": {
-                          "not": { "required": ["argvOption"] }
+                          "not": {
+                            "required": [
+                              "argvOption"
+                            ]
+                          }
                         }
                       }
                     ]
@@ -134,22 +160,33 @@
               "resumeCommand": {
                 "type": "string",
                 "anyOf": [
-                  { "pattern": "\\{\\{sessionId\\}\\}" },
-                  { "pattern": "\\{\\{sessionPath\\}\\}" }
+                  {
+                    "pattern": "\\{\\{sessionId\\}\\}"
+                  },
+                  {
+                    "pattern": "\\{\\{sessionPath\\}\\}"
+                  }
                 ],
                 "description": "Shell-like argv template used to resume a session. Supported placeholders: {{sessionId}}, {{sessionPath}}, {{executable}}, {{cwd}}, {{sessionDir}}. Must include {{sessionId}} or {{sessionPath}}."
               },
               "forkCommand": {
                 "type": "string",
                 "anyOf": [
-                  { "pattern": "\\{\\{sessionId\\}\\}" },
-                  { "pattern": "\\{\\{sessionPath\\}\\}" }
+                  {
+                    "pattern": "\\{\\{sessionId\\}\\}"
+                  },
+                  {
+                    "pattern": "\\{\\{sessionPath\\}\\}"
+                  }
                 ],
                 "description": "Optional shell-like argv template used to fork (branch) a session into a new copy, for example \"{{executable}} --session {{sessionId}} --fork\". Same placeholders as resumeCommand. Omit when the agent has no fork capability; Fork Conversation stays hidden for it."
               },
               "cwd": {
                 "type": "string",
-                "enum": ["preserve", "ignore"],
+                "enum": [
+                  "preserve",
+                  "ignore"
+                ],
                 "default": "preserve",
                 "description": "Whether Vault should cd to the saved working directory before running resumeCommand."
               },
@@ -175,7 +212,11 @@
       "properties": {
         "newWorkspacePlacement": {
           "type": "string",
-          "enum": ["afterCurrent", "top", "end"],
+          "enum": [
+            "afterCurrent",
+            "top",
+            "end"
+          ],
           "default": "afterCurrent",
           "description": "Global default for where Cmd-N inside a group, the group header + button, and configured group actions place the new workspace: `afterCurrent` (after the active in-group workspace, falling back to top), `top` (second slot, just after the anchor), or `end` (after the last member).",
           "descriptionKey": "schemaDescriptions.workspaceGroups.newWorkspacePlacement"
@@ -200,14 +241,23 @@
                 "description": "Items appearing in the right-click menu on the group's + button. Same schema as the global ui.newWorkspace.contextMenu entries.",
                 "items": {
                   "oneOf": [
-                    { "type": "string" },
-                    { "type": "object", "additionalProperties": true }
+                    {
+                      "type": "string"
+                    },
+                    {
+                      "type": "object",
+                      "additionalProperties": true
+                    }
                   ]
                 }
               },
               "newWorkspacePlacement": {
                 "type": "string",
-                "enum": ["afterCurrent", "top", "end"],
+                "enum": [
+                  "afterCurrent",
+                  "top",
+                  "end"
+                ],
                 "description": "Per-cwd override for where Cmd-N inside the group, the group header + button, and configured group actions place the new workspace: `afterCurrent` (after the active in-group workspace, falling back to top), `top` (second slot, just after the anchor), or `end` (after the last member). Falls back to the global default when omitted.",
                 "descriptionKey": "schemaDescriptions.workspaceGroups.byCwd.newWorkspacePlacement"
               }
@@ -222,7 +272,9 @@
       "type": "array",
       "items": {
         "oneOf": [
-          { "type": "string" },
+          {
+            "type": "string"
+          },
           {
             "type": "object",
             "additionalProperties": true
@@ -264,13 +316,21 @@
         },
         "appearance": {
           "type": "string",
-          "enum": ["system", "light", "dark"],
+          "enum": [
+            "system",
+            "light",
+            "dark"
+          ],
           "default": "system",
           "description": "App appearance mode."
         },
         "appIcon": {
           "type": "string",
-          "enum": ["automatic", "light", "dark"],
+          "enum": [
+            "automatic",
+            "light",
+            "dark"
+          ],
           "default": "automatic",
           "description": "Dock and app switcher icon style."
         },
@@ -287,13 +347,24 @@
         },
         "newWorkspacePlacement": {
           "type": "string",
-          "enum": ["top", "afterCurrent", "end"],
+          "enum": [
+            "top",
+            "afterCurrent",
+            "end"
+          ],
           "default": "afterCurrent",
           "description": "Where new workspaces are inserted in the sidebar."
         },
         "forkConversationDefaultDestination": {
           "type": "string",
-          "enum": ["right", "left", "top", "bottom", "newTab", "newWorkspace"],
+          "enum": [
+            "right",
+            "left",
+            "top",
+            "bottom",
+            "newTab",
+            "newWorkspace"
+          ],
           "default": "right",
           "descriptionKey": "schemaDescriptions.app.forkConversationDefaultDestination",
           "description": "Default destination for the tab context menu's primary Fork Conversation action. The submenu still exposes every destination."
@@ -350,7 +421,11 @@
         },
         "confirmQuit": {
           "type": "string",
-          "enum": ["always", "dirty-only", "never"],
+          "enum": [
+            "always",
+            "dirty-only",
+            "never"
+          ],
           "default": "always",
           "descriptionKey": "schemaDescriptions.app.confirmQuit",
           "description": "Control when cmux asks for confirmation before quitting. DEV builds always quit immediately regardless of this setting. Legacy app.warnBeforeQuit is still accepted as a boolean fallback."
@@ -398,7 +473,11 @@
       "properties": {
         "restoreMode": {
           "type": "string",
-          "enum": ["always", "ask", "never"],
+          "enum": [
+            "always",
+            "ask",
+            "never"
+          ],
           "default": "ask",
           "descriptionKey": "schemaDescriptions.session.restoreMode",
           "description": "When cmux launches with a previous session available: \"always\" restores it silently, \"ask\" prompts before restoring (the default), and \"never\" starts fresh (the previous session stays reopenable via File > Restore Previous Launch)."
@@ -407,7 +486,7 @@
           "type": "boolean",
           "default": true,
           "descriptionKey": "schemaDescriptions.session.persistShellHistory",
-          "description": "Give each terminal tab its own shell history (up-arrow / Ctrl-R) namespaced by project directory, and record a cmux command history per tab. When off, tabs use your shell's normal global history (e.g. ~/.zsh_history)."
+          "description": "Give each terminal tab its own shell history (up-arrow / Ctrl-R), restored when the tab reopens, and record a cmux command history per tab. When off, tabs use your shell's normal global history (e.g. ~/.zsh_history)."
         }
       }
     },
@@ -519,7 +598,16 @@
           "items": {
             "type": "object",
             "additionalProperties": false,
-            "required": ["version", "id", "commandPrefix", "environmentKeys", "policy", "createdAt", "updatedAt", "signature"],
+            "required": [
+              "version",
+              "id",
+              "commandPrefix",
+              "environmentKeys",
+              "policy",
+              "createdAt",
+              "updatedAt",
+              "signature"
+            ],
             "properties": {
               "version": {
                 "type": "integer",
@@ -562,7 +650,11 @@
               },
               "policy": {
                 "type": "string",
-                "enum": ["manual", "prompt", "auto"]
+                "enum": [
+                  "manual",
+                  "prompt",
+                  "auto"
+                ]
               },
               "createdAt": {
                 "type": "number"
@@ -644,7 +736,10 @@
         },
         "hooksMode": {
           "type": "string",
-          "enum": ["append", "replace"],
+          "enum": [
+            "append",
+            "replace"
+          ],
           "default": "append",
           "description": "Controls whether project-local notification hooks append to inherited hooks or replace them."
         },
@@ -655,7 +750,10 @@
           "items": {
             "type": "object",
             "additionalProperties": false,
-            "required": ["id", "command"],
+            "required": [
+              "id",
+              "command"
+            ],
             "properties": {
               "id": {
                 "type": "string",
@@ -707,7 +805,10 @@
         },
         "branchLayout": {
           "type": "string",
-          "enum": ["vertical", "inline"],
+          "enum": [
+            "vertical",
+            "inline"
+          ],
           "default": "vertical",
           "description": "Show git branch details stacked vertically or inline."
         },
@@ -1011,7 +1112,25 @@
       "properties": {
         "defaultSearchEngine": {
           "type": "string",
-          "enum": ["google", "duckduckgo", "bing", "kagi", "startpage", "brave", "perplexity", "exa", "yahoo", "ecosia", "qwant", "mojeek", "wikipedia", "github", "baidu", "yandex", "custom"],
+          "enum": [
+            "google",
+            "duckduckgo",
+            "bing",
+            "kagi",
+            "startpage",
+            "brave",
+            "perplexity",
+            "exa",
+            "yahoo",
+            "ecosia",
+            "qwant",
+            "mojeek",
+            "wikipedia",
+            "github",
+            "baidu",
+            "yandex",
+            "custom"
+          ],
           "default": "google",
           "descriptionKey": "schemaDescriptions.browser.defaultSearchEngine",
           "description": "Default search engine for non-URL browser address bar queries. Use custom with customSearchEngineURLTemplate for arbitrary providers."
@@ -1035,7 +1154,11 @@
         },
         "theme": {
           "type": "string",
-          "enum": ["system", "light", "dark"],
+          "enum": [
+            "system",
+            "light",
+            "dark"
+          ],
           "default": "system",
           "description": "Embedded browser theme."
         },
@@ -1179,7 +1302,11 @@
       "properties": {
         "doubleClickAction": {
           "type": "string",
-          "enum": ["preview", "defaultEditor", "preferredEditor"],
+          "enum": [
+            "preview",
+            "defaultEditor",
+            "preferredEditor"
+          ],
           "default": "preview",
           "description": "What double-clicking (or pressing Return on a search result for) a file in the file explorer does. `preview` opens the built-in cmux file preview (the default and historical behavior). `defaultEditor` opens with the macOS default app for the file type. `preferredEditor` opens with the `app.preferredEditor` command, falling back to the default app when none is set. Only applies to files; directories always expand/collapse, and non-local (remote) file explorers always open the cmux preview.",
           "descriptionKey": "schemaDescriptions.fileExplorer.doubleClickAction"
@@ -1194,7 +1321,10 @@
       "properties": {
         "defaultLayout": {
           "type": "string",
-          "enum": ["unified", "split"],
+          "enum": [
+            "unified",
+            "split"
+          ],
           "default": "unified",
           "description": "Default layout for newly opened diff viewers. The toolbar layout toggle persists the user's last choice; an explicit `cmux diff --layout` option overrides both.",
           "descriptionKey": "schemaDescriptions.diffViewer.defaultLayout"
@@ -1438,7 +1568,13 @@
     },
     "unboundShortcutBinding": {
       "type": "string",
-      "enum": ["", "none", "clear", "unbound", "disabled"]
+      "enum": [
+        "",
+        "none",
+        "clear",
+        "unbound",
+        "disabled"
+      ]
     },
     "shortcutFirstStroke": {
       "allOf": [

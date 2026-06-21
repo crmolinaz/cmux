@@ -830,6 +830,10 @@
         "shortcuts": {
           "when": "مسندات سياق اختيارية لكل إجراء (عبارات `when` على نمط VS Code)، مفهرسة بمعرّف إجراء cmux. كل قيمة هي تعبير منطقي فوق مفاتيح السياق، مدمجة باستخدام ! و && و || والأقواس. المفاتيح المنطقية: sidebarFocus و browserFocus و markdownFocus و terminalFocus و commandPaletteVisible و terminalFindVisible. تدعم المفاتيح المصنّفة المقارنات: السلسلة النصية sidebarMode (files أو find أو sessions أو feed أو dock) والعددان الصحيحان paneCount و workspaceCount. عوامل المقارنة هي == و != و =~ (تعبير نمطي) و < و <= و > و >= و `in [a, b]`؛ المفتاح غير المعروف أو الغائب يُقرأ على أنه false. تُقبل أيضًا القيمتان المنطقيتان الحرفيتان true و false؛ و`key == false` تكافئ `!key`. لا يعمل اختصار الإجراء (ولا يتعارض مع اختصارات أخرى) إلا عندما تكون العبارة صحيحة. أمثلة: { \"selectWorkspaceByNumber\": \"!sidebarFocus\" } يحدد مساحات العمل بواسطة Ctrl+1–9 في كل مكان ما عدا عندما يكون الشريط الجانبي الأيمن مركزًا؛ { \"selectSurfaceByNumber\": \"sidebarMode == 'find' && paneCount > 1\" } يقصر الارتباط على الشريط الجانبي للبحث عندما تحتوي مساحة العمل على عدة ألواح.",
           "showModifierHoldHints": "إظهار شرائح تلميحات الاختصارات أثناء الضغط باستمرار على Cmd أو Control."
+        },
+        "session": {
+          "restoreMode": "عند تشغيل cmux مع توفّر جلسة سابقة: تستعيدها \"always\" بصمت، وتطلب \"ask\" التأكيد قبل الاستعادة (الإعداد الافتراضي)، وتبدأ \"never\" من جديد (تبقى الجلسة السابقة قابلة لإعادة الفتح عبر File > Restore Previous Launch).",
+          "persistShellHistory": "امنح كل علامة تبويب طرفية سجل الصدفة الخاص بها (up-arrow / Ctrl-R)، يُستعاد عند إعادة فتح علامة التبويب، وسجِّل سجل أوامر cmux لكل علامة تبويب. عند الإيقاف، تستخدم علامات التبويب السجل العام المعتاد لصدفتك (مثل ~/.zsh_history)."
         }
       },
       "exampleMarkdownFontSize": "Default body font size (points) for newly opened markdown viewers.",

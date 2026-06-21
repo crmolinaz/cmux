@@ -1,3 +1,5 @@
+> **ฟอร์กแยกอิสระ.** ฟอร์กส่วนตัวของ [manaflow-ai/cmux](https://github.com/manaflow-ai/cmux) ดูแลโดย [@crmolinaz](https://github.com/crmolinaz) การเปลี่ยนแปลงของฟอร์กนี้ — ประวัติเชลล์แยกตามแท็บ และการกู้คืนเซสชันที่ปรับแต่งได้ — แสดงอยู่ใน [CHANGELOG.md](CHANGELOG.md)
+
 > การแปลนี้สร้างโดย Claude หากมีข้อเสนอแนะในการปรับปรุง กรุณาเปิด PR
 
 <h1 align="center">cmux</h1>

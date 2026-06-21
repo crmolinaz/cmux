@@ -1,3 +1,5 @@
+> **獨立分支。** [manaflow-ai/cmux](https://github.com/manaflow-ai/cmux) 的個人分支，由 [@crmolinaz](https://github.com/crmolinaz) 維護。本分支的變更（每個分頁的 shell 歷史記錄與可設定的工作階段還原）記錄於 [CHANGELOG.md](CHANGELOG.md)。
+
 > 此翻譯由 Claude 生成。如有改進建議，歡迎提交 PR。
 
 <h1 align="center">cmux</h1>

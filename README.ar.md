@@ -1,3 +1,5 @@
+> **نسخة مفصولة (fork).** نسخة شخصية من [manaflow-ai/cmux](https://github.com/manaflow-ai/cmux) يتولّى صيانتها [@crmolinaz](https://github.com/crmolinaz). تغييرات هذه النسخة — سجلّ الصدفة (shell) لكل علامة تبويب واستعادة الجلسة القابلة للتهيئة — مُدرجة في [CHANGELOG.md](CHANGELOG.md).
+
 > تمت هذه الترجمة بواسطة Claude. إذا كانت لديك اقتراحات للتحسين، يرجى فتح PR.
 
 <h1 align="center">cmux</h1>

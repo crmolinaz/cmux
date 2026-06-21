@@ -1,3 +1,5 @@
+> **Odvojeni fork.** Lični fork projekta [manaflow-ai/cmux](https://github.com/manaflow-ai/cmux) koji održava [@crmolinaz](https://github.com/crmolinaz). Izmjene ovog forka (zasebna historija shella po kartici i podesivo vraćanje sesije) navedene su u [CHANGELOG.md](CHANGELOG.md).
+
 > Ovaj prijevod je generisan od strane Claude. Ako imate prijedloge za poboljšanje, otvorite PR.
 
 <h1 align="center">cmux</h1>

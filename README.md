@@ -1,3 +1,7 @@
+<!-- markdownlint-disable MD041 -->
+> [!NOTE]
+> **Detached fork.** This is a personal, detached fork of [manaflow-ai/cmux](https://github.com/manaflow-ai/cmux) maintained by [@crmolinaz](https://github.com/crmolinaz), carrying fork-specific changes. See [Fork changes](#fork-changes) below or [CHANGELOG.md](CHANGELOG.md).
+
 <h1 align="center">cmux</h1>
 <p align="center">A Ghostty-based macOS terminal with vertical tabs and notifications for AI coding agents</p>
 
@@ -24,6 +28,12 @@
 <p align="center">
   <a href="https://www.youtube.com/watch?v=i-WxO5YUTOs">▶ Demo video</a> · <a href="https://cmux.com/blog/zen-of-cmux">The Zen of cmux</a>
 </p>
+
+## Fork changes
+
+Changes specific to this detached fork, newest first (full history in [CHANGELOG.md](CHANGELOG.md)):
+
+- **Per-tab shell history + configurable session restore** ([#1](https://github.com/crmolinaz/cmux/pull/1)) — each terminal tab keeps its own ↑ / Ctrl-R shell history, restored when the tab reopens, plus a per-tab command-history view (Command Palette → "Show Command History"); session restore on launch is configurable as always / ask / never (default ask).
 
 ## Features
 

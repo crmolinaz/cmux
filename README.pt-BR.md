@@ -1,3 +1,5 @@
+> **Fork independente.** Um fork pessoal do [manaflow-ai/cmux](https://github.com/manaflow-ai/cmux) mantido por [@crmolinaz](https://github.com/crmolinaz). As mudanças deste fork (histórico de shell por aba e restauração de sessão configurável) estão listadas no [CHANGELOG.md](CHANGELOG.md).
+
 > Esta tradução foi gerada pelo Claude. Se você tiver sugestões de melhoria, abra um PR.
 
 <h1 align="center">cmux</h1>

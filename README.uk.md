@@ -1,3 +1,5 @@
+> **Відокремлений форк.** Особистий форк [manaflow-ai/cmux](https://github.com/manaflow-ai/cmux), який підтримує [@crmolinaz](https://github.com/crmolinaz). Зміни цього форку (історія оболонки для кожної вкладки та налаштовуване відновлення сесії) перелічені у [CHANGELOG.md](CHANGELOG.md).
+
 > Цей переклад було згенеровано за допомогою Claude. Якщо у вас є пропозиції щодо покращень, відкрийте PR.
 
 <h1 align="center">cmux</h1>

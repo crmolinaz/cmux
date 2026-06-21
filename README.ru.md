@@ -1,3 +1,5 @@
+> **Отделённый форк.** Личный форк [manaflow-ai/cmux](https://github.com/manaflow-ai/cmux), поддерживаемый [@crmolinaz](https://github.com/crmolinaz). Изменения этого форка (история оболочки для каждой вкладки и настраиваемое восстановление сессии) перечислены в [CHANGELOG.md](CHANGELOG.md).
+
 > Этот перевод создан Claude. Если у вас есть предложения по улучшению, откройте PR.
 
 <h1 align="center">cmux</h1>

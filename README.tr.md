@@ -1,3 +1,5 @@
+> **Ayrık fork.** [@crmolinaz](https://github.com/crmolinaz) tarafından sürdürülen, [manaflow-ai/cmux](https://github.com/manaflow-ai/cmux) projesinin kişisel bir fork'u. Bu fork'un değişiklikleri (sekme başına kabuk geçmişi ve yapılandırılabilir oturum geri yükleme) [CHANGELOG.md](CHANGELOG.md) dosyasında listelenmiştir.
+
 > Bu çeviri Claude tarafından oluşturulmuştur. İyileştirme önerileriniz varsa lütfen bir PR açın.
 
 <h1 align="center">cmux</h1>

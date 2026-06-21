@@ -2,6 +2,14 @@
 
 All notable changes to cmux are documented here.
 
+## Fork changes
+
+Changes specific to this detached fork ([crmolinaz/cmux](https://github.com/crmolinaz/cmux)), newest first. Upstream cmux history follows below.
+
+### Added
+- Per-tab shell history: each terminal tab keeps its own up-arrow / Ctrl-R history, restored when the tab reopens, plus a per-tab command-history view via the Command Palette ("Show Command History") ([#1](https://github.com/crmolinaz/cmux/pull/1))
+- Configurable session restore on launch — `always`, `ask`, or `never` (default `ask`), with a restore prompt in `ask` mode ([#1](https://github.com/crmolinaz/cmux/pull/1))
+
 ## [0.64.16] - 2026-06-15
 
 ### Added

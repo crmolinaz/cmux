@@ -1,3 +1,5 @@
+> **Fork ឯករាជ្យ។** នេះជា fork ផ្ទាល់ខ្លួននៃ [manaflow-ai/cmux](https://github.com/manaflow-ai/cmux) ដែលថែទាំដោយ [@crmolinaz](https://github.com/crmolinaz)។ ការផ្លាស់ប្ដូររបស់ fork នេះ — ប្រវត្តិ shell តាមផ្ទាំងនីមួយៗ និងការស្ដារសម័យដែលអាចកំណត់បាន — ត្រូវបានរាយក្នុង [CHANGELOG.md](CHANGELOG.md)។
+
 > ការបកប្រែនេះត្រូវបានបង្កើតដោយ Claude។ ប្រសិនបើអ្នកមានការកែលម្អ សូមបង្កើត PR។
 
 <h1 align="center">cmux</h1>

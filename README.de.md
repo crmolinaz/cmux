@@ -1,3 +1,5 @@
+> **Abgekoppelter Fork.** Ein persönlicher Fork von [manaflow-ai/cmux](https://github.com/manaflow-ai/cmux), gepflegt von [@crmolinaz](https://github.com/crmolinaz). Die Änderungen dieses Forks – Shell-Verlauf pro Tab und konfigurierbare Sitzungswiederherstellung – sind in [CHANGELOG.md](CHANGELOG.md) aufgeführt.
+
 > Diese Übersetzung wurde von Claude erstellt. Verbesserungsvorschläge sind als PR willkommen.
 
 <h1 align="center">cmux</h1>

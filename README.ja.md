@@ -1,3 +1,5 @@
+> **派生フォーク。** [manaflow-ai/cmux](https://github.com/manaflow-ai/cmux) の個人フォークで、[@crmolinaz](https://github.com/crmolinaz) が管理しています。このフォークの変更点（タブごとのシェル履歴と設定可能なセッション復元）は [CHANGELOG.md](CHANGELOG.md) に記載しています。
+
 > この翻訳は Claude によって生成されました。改善の提案がある場合は、PR を作成してください。
 
 <h1 align="center">cmux</h1>

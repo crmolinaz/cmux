@@ -830,6 +830,10 @@
         "shortcuts": {
           "when": "每个操作可选的上下文谓词（VS Code 风格的 `when` 子句），按 cmux 操作 id 索引。每个值都是基于上下文键的布尔表达式，可用 !、&&、|| 和括号组合。布尔键：sidebarFocus、browserFocus、markdownFocus、terminalFocus、commandPaletteVisible、terminalFindVisible。类型化键支持比较：字符串 sidebarMode（files、find、sessions、feed 或 dock）以及整数 paneCount 和 workspaceCount。比较运算符为 ==、!=、=~（正则表达式）、<、<=、>、>= 和 `in [a, b]`；未知或不存在的键按 false 处理。也接受布尔字面量 true 和 false；`key == false` 等同于 `!key`。只有当子句成立时，该操作的快捷键才会触发，也只会在这种情况下与其他快捷键冲突。示例：{ \"selectWorkspaceByNumber\": \"!sidebarFocus\" } 让 Ctrl+1–9 在右侧边栏未聚焦时选择工作区；{ \"selectSurfaceByNumber\": \"sidebarMode == 'find' && paneCount > 1\" } 在工作区有多个窗格时将绑定限定在查找侧边栏。",
           "showModifierHoldHints": "在按住 Cmd 或 Control 时显示快捷键提示标签。"
+        },
+        "session": {
+          "restoreMode": "当 cmux 启动且有可用的上次会话时：“always”静默恢复，“ask”在恢复前询问（默认），“never”全新开始（上次会话仍可通过 File > Restore Previous Launch 重新打开）。",
+          "persistShellHistory": "为每个终端标签页提供各自的 shell 历史（上箭头 / Ctrl-R），标签页重新打开时恢复，并按标签页记录 cmux 命令历史。关闭时，标签页使用 shell 正常的全局历史（例如 ~/.zsh_history）。"
         }
       },
       "exampleMarkdownFontSize": "Default body font size (points) for newly opened markdown viewers.",

@@ -1,3 +1,5 @@
+> **Odłączony fork.** Osobisty fork [manaflow-ai/cmux](https://github.com/manaflow-ai/cmux) utrzymywany przez [@crmolinaz](https://github.com/crmolinaz). Zmiany w tym forku (osobna historia powłoki dla każdej karty i konfigurowalne przywracanie sesji) są wymienione w [CHANGELOG.md](CHANGELOG.md).
+
 > To tłumaczenie zostało wygenerowane przez Claude. Jeśli masz sugestie dotyczące poprawek, otwórz PR.
 
 <h1 align="center">cmux</h1>

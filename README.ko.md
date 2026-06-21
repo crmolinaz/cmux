@@ -1,3 +1,5 @@
+> **독립 포크.** [@crmolinaz](https://github.com/crmolinaz) 가 관리하는 [manaflow-ai/cmux](https://github.com/manaflow-ai/cmux) 의 개인 포크입니다. 이 포크의 변경 사항(탭별 셸 기록 및 구성 가능한 세션 복원)은 [CHANGELOG.md](CHANGELOG.md) 에 정리되어 있습니다.
+
 > 이 문서는 Claude가 번역했어요. 개선할 부분이 있다면 PR을 보내주세요.
 
 <h1 align="center">cmux</h1>

@@ -1,3 +1,5 @@
+> **Frittstående fork.** En personlig fork av [manaflow-ai/cmux](https://github.com/manaflow-ai/cmux), vedlikeholdt av [@crmolinaz](https://github.com/crmolinaz). Endringene i denne forken – shell-historikk per fane og konfigurerbar øktgjenoppretting – er listet i [CHANGELOG.md](CHANGELOG.md).
+
 > Denne oversettelsen ble generert av Claude. Hvis du har forslag til forbedringer, send gjerne en PR.
 
 <h1 align="center">cmux</h1>

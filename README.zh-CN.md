@@ -1,3 +1,5 @@
+> **独立分叉。** [manaflow-ai/cmux](https://github.com/manaflow-ai/cmux) 的个人分叉，由 [@crmolinaz](https://github.com/crmolinaz) 维护。本分叉的更改（按标签页的 shell 历史记录和可配置的会话恢复）记录在 [CHANGELOG.md](CHANGELOG.md) 中。
+
 > 此翻译由 Claude 生成。如有改进建议，欢迎提交 PR。
 
 <h1 align="center">cmux</h1>

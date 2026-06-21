@@ -1,3 +1,5 @@
+> **Bản fork tách rời.** Bản fork cá nhân của [manaflow-ai/cmux](https://github.com/manaflow-ai/cmux) do [@crmolinaz](https://github.com/crmolinaz) duy trì. Các thay đổi của bản fork này — lịch sử shell theo từng tab và khôi phục phiên có thể cấu hình — được liệt kê trong [CHANGELOG.md](CHANGELOG.md).
+
 <h1 align="center">cmux</h1>
 <p align="center">Một terminal macOS dựa trên Ghostty với tab dọc và thông báo cho các agent lập trình AI</p>
 

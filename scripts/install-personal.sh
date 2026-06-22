@@ -105,6 +105,19 @@ PL="${DEST}/Contents/Info.plist"
   || /usr/libexec/PlistBuddy -c "Add :CFBundleDisplayName string ${APP_NAME}" "$PL"
 /usr/libexec/PlistBuddy -c "Set :CFBundleIdentifier ${BUNDLE_ID}" "$PL"
 
+# Stamp the build with its timestamp so each local build is identifiable in
+# T-Rex > About. These personal builds don't auto-update, so the build time is
+# the most reliable way to tell which one you're running. CFBundleVersion (the
+# "Build" field) becomes a monotonically increasing YYYYMMDD.HHMMSS stamp, and
+# the marketing version keeps its number with the stamp appended.
+BUILD_TS="$(date +%Y%m%d.%H%M%S)"
+SHORT_VER="$(/usr/libexec/PlistBuddy -c 'Print :CFBundleShortVersionString' "$PL" 2>/dev/null || echo 0.0.0)"
+/usr/libexec/PlistBuddy -c "Set :CFBundleShortVersionString ${SHORT_VER}+build.${BUILD_TS}" "$PL" 2>/dev/null \
+  || /usr/libexec/PlistBuddy -c "Add :CFBundleShortVersionString string ${SHORT_VER}+build.${BUILD_TS}" "$PL"
+/usr/libexec/PlistBuddy -c "Set :CFBundleVersion ${BUILD_TS}" "$PL" 2>/dev/null \
+  || /usr/libexec/PlistBuddy -c "Add :CFBundleVersion string ${BUILD_TS}" "$PL"
+echo "==> Stamped build version ${SHORT_VER}+build.${BUILD_TS}"
+
 # Isolated sockets so this never collides with stock/staging/dev cmux.
 APP_SUPPORT_DIR="${HOME}/Library/Application Support/cmux"
 CMUXD_SOCKET="${APP_SUPPORT_DIR}/cmuxd-personal-${SLUG}.sock"

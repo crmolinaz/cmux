@@ -7,7 +7,7 @@ set -euo pipefail
 # id. Re-run this whenever you want to pick up the latest main.
 #
 # Usage:
-#   ./scripts/install-personal.sh                 # sync main, build, install "crmolinaz-cmux"
+#   ./scripts/install-personal.sh                 # sync main, build, install "T-Rex"
 #   ./scripts/install-personal.sh --name my-cmux  # custom name
 #   ./scripts/install-personal.sh --launch        # open it after install
 #   ./scripts/install-personal.sh --no-sync       # build whatever is checked out (skip git)
@@ -15,7 +15,7 @@ set -euo pipefail
 REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "$REPO_ROOT"
 
-APP_NAME="crmolinaz-cmux"
+APP_NAME="T-Rex"
 LAUNCH=0
 SYNC=1
 while [[ $# -gt 0 ]]; do
@@ -64,12 +64,27 @@ if [[ "$SYNC" -eq 1 ]]; then
 fi
 
 echo "==> Building Release from $(git rev-parse --short HEAD) (${DERIVED_DATA})"
+# Build ad-hoc with no entitlements so this works on a machine without an
+# Apple Development certificate: the Release config's keychain-access-groups
+# entitlement requires a real team prefix that automatic signing can't supply
+# here. A personal local build doesn't need it (the Debug build runs the same
+# way), and the app is ad-hoc re-signed after the Info.plist edits below.
+# Skip the Zig CLI helper build (a Mach-O stub is embedded instead): it
+# requires a pinned Zig toolchain that may not be installed locally, and the
+# terminal itself runs on the prebuilt GhosttyKit.xcframework. This matches how
+# reload.sh builds the app for local use.
 xcodebuild \
   -project cmux.xcodeproj \
   -scheme cmux \
   -configuration Release \
   -destination 'platform=macOS' \
   -derivedDataPath "$DERIVED_DATA" \
+  CMUX_SKIP_ZIG_BUILD=1 \
+  CODE_SIGN_STYLE=Manual \
+  CODE_SIGN_IDENTITY="-" \
+  CODE_SIGN_ENTITLEMENTS="" \
+  DEVELOPMENT_TEAM="" \
+  PROVISIONING_PROFILE_SPECIFIER="" \
   build
 
 BUILT="${DERIVED_DATA}/Build/Products/Release/${BASE_APP_NAME}.app"
@@ -103,8 +118,41 @@ set_env CMUX_BUNDLE_ID "$BUNDLE_ID"
 set_env CMUXD_UNIX_PATH "$CMUXD_SOCKET"
 set_env CMUX_SOCKET_PATH "$CMUX_SOCKET_PATH_VALUE"
 
+# Custom app icon (terminal with a running T-Rex). Only this personal build gets
+# it; stock cmux is untouched. We point the plist at the bundled .icns and drop
+# the asset-catalog icon reference so Launch Services uses our file.
+ICON_SRC="${REPO_ROOT}/design/trex/AppIcon-trex.icns"
+if [[ -f "$ICON_SRC" ]]; then
+  cp "$ICON_SRC" "${DEST}/Contents/Resources/AppIcon-trex.icns"
+  /usr/libexec/PlistBuddy -c "Set :CFBundleIconFile AppIcon-trex" "$PL" 2>/dev/null \
+    || /usr/libexec/PlistBuddy -c "Add :CFBundleIconFile string AppIcon-trex" "$PL"
+  /usr/libexec/PlistBuddy -c "Delete :CFBundleIconName" "$PL" 2>/dev/null || true
+else
+  echo "warn: ${ICON_SRC} not found; keeping default icon" >&2
+fi
+
 echo "==> Re-signing"
 /usr/bin/codesign --force --deep --sign - --timestamp=none "$DEST" >/dev/null 2>&1 || true
+
+# Best-effort: expose a `trex` command on PATH pointing at this build's bundled
+# CLI. We deliberately do NOT touch `cmux`, so stock cmux keeps its own command.
+# Prefer a user-writable dir already on PATH (no sudo); fall back to a printed
+# sudo command for /usr/local/bin.
+CLI_SRC="${DEST}/Contents/Resources/bin/cmux"
+if [[ -f "$CLI_SRC" ]]; then
+  TREX_DIR=""
+  for d in "$HOME/.bun/bin" "$HOME/.local/bin" "/opt/homebrew/bin" "/usr/local/bin"; do
+    if [[ -d "$d" && -w "$d" ]]; then TREX_DIR="$d"; break; fi
+  done
+  if [[ -n "$TREX_DIR" ]] && ln -sf "$CLI_SRC" "$TREX_DIR/trex" 2>/dev/null; then
+    echo "==> Linked 'trex' -> ${CLI_SRC} (${TREX_DIR}/trex)"
+  else
+    echo "note: no writable PATH dir for 'trex'. Run this once to finish:" >&2
+    echo "  sudo ln -sf \"${CLI_SRC}\" \"/usr/local/bin/trex\"" >&2
+  fi
+else
+  echo "note: bundled CLI not found at ${CLI_SRC}; skipping 'trex' link" >&2
+fi
 
 echo "App path:"
 echo "  ${DEST}"

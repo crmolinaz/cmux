@@ -56,7 +56,7 @@ extension TabManager {
             activeWorkspace: workspaceTitle.isEmpty ? defaultTitle : workspaceTitle,
             activeDirectory: activeDirectory,
             windowId: windowId,
-            appName: "cmux"
+            appName: AppBranding.displayName
         ))
         let trimmedResolvedTitle = resolvedTitle.trimmingCharacters(in: .whitespacesAndNewlines)
         return trimmedResolvedTitle.isEmpty ? defaultTitle : trimmedResolvedTitle

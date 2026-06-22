@@ -45,6 +45,11 @@ struct CmuxCLIPathInstaller {
 
     let fileManager: FileManager
     let destinationURL: URL
+    /// Additional command names symlinked to the same bundled CLI, so the tool
+    /// can be invoked under more than one name (e.g. a `trex` alias for this
+    /// renamed build). The bundled CLI ignores argv[0], so every alias behaves
+    /// identically to `cmux`.
+    let aliasDestinationURLs: [URL]
     private let bundledCLIURLProvider: () -> URL?
     private let expectedBundledCLIPath: String
     private let privilegedInstaller: PrivilegedInstallHandler
@@ -53,6 +58,7 @@ struct CmuxCLIPathInstaller {
     init(
         fileManager: FileManager = .default,
         destinationURL: URL = URL(fileURLWithPath: "/usr/local/bin/cmux"),
+        aliasDestinationURLs: [URL] = [URL(fileURLWithPath: "/usr/local/bin/trex")],
         bundledCLIURLProvider: @escaping () -> URL? = {
             CmuxCLIPathInstaller.defaultBundledCLIURL()
         },
@@ -62,10 +68,22 @@ struct CmuxCLIPathInstaller {
     ) {
         self.fileManager = fileManager
         self.destinationURL = destinationURL
+        self.aliasDestinationURLs = aliasDestinationURLs
         self.bundledCLIURLProvider = bundledCLIURLProvider
         self.expectedBundledCLIPath = expectedBundledCLIPath
-        self.privilegedInstaller = privilegedInstaller ?? Self.installWithAdministratorPrivileges(sourceURL:destinationURL:)
-        self.privilegedUninstaller = privilegedUninstaller ?? Self.uninstallWithAdministratorPrivileges(destinationURL:)
+        self.privilegedInstaller = privilegedInstaller ?? { source, dest in
+            try Self.installWithAdministratorPrivileges(
+                sourceURL: source,
+                destinationURL: dest,
+                aliasDestinationURLs: aliasDestinationURLs
+            )
+        }
+        self.privilegedUninstaller = privilegedUninstaller ?? { dest in
+            try Self.uninstallWithAdministratorPrivileges(
+                destinationURL: dest,
+                aliasDestinationURLs: aliasDestinationURLs
+            )
+        }
     }
 
     var destinationPath: String {
@@ -139,11 +157,22 @@ struct CmuxCLIPathInstaller {
     private func installWithoutAdministratorPrivileges(sourceURL: URL) throws {
         try ensureDestinationParentDirectoryExists()
         try ensureDestinationIsNotDirectory()
-        if destinationEntryExists() {
-            try fileManager.removeItem(at: destinationURL)
-        }
-        try fileManager.createSymbolicLink(at: destinationURL, withDestinationURL: sourceURL)
+        try createSymlinkReplacingExisting(at: destinationURL, to: sourceURL)
         try verifyInstalledSymlinkTarget(sourceURL: sourceURL)
+        for aliasURL in aliasDestinationURLs {
+            try createSymlinkReplacingExisting(at: aliasURL, to: sourceURL)
+        }
+    }
+
+    private func createSymlinkReplacingExisting(at linkURL: URL, to sourceURL: URL) throws {
+        let parentURL = linkURL.deletingLastPathComponent()
+        if !fileManager.fileExists(atPath: parentURL.path) {
+            try fileManager.createDirectory(at: parentURL, withIntermediateDirectories: true)
+        }
+        if (try? fileManager.attributesOfItem(atPath: linkURL.path)) != nil {
+            try fileManager.removeItem(at: linkURL)
+        }
+        try fileManager.createSymbolicLink(at: linkURL, withDestinationURL: sourceURL)
     }
 
     @discardableResult
@@ -155,6 +184,9 @@ struct CmuxCLIPathInstaller {
         }
         if destinationEntryExists() {
             throw InstallerError.uninstallVerificationFailed(path: destinationURL.path)
+        }
+        for aliasURL in aliasDestinationURLs where (try? fileManager.attributesOfItem(atPath: aliasURL.path)) != nil {
+            try? fileManager.removeItem(at: aliasURL)
         }
         return existed
     }
@@ -237,18 +269,29 @@ struct CmuxCLIPathInstaller {
             .path
     }
 
-    private static func installWithAdministratorPrivileges(sourceURL: URL, destinationURL: URL) throws {
-        let destinationPath = destinationURL.path
-        let parentPath = destinationURL.deletingLastPathComponent().path
-        let command = "/bin/mkdir -p \(shellQuoted(parentPath)) && " +
-            "/bin/rm -f \(shellQuoted(destinationPath)) && " +
-            "/bin/ln -s \(shellQuoted(sourceURL.path)) \(shellQuoted(destinationPath))"
-        try runPrivilegedShellCommand(command)
+    private static func installWithAdministratorPrivileges(
+        sourceURL: URL,
+        destinationURL: URL,
+        aliasDestinationURLs: [URL] = []
+    ) throws {
+        let sourcePath = shellQuoted(sourceURL.path)
+        var segments: [String] = []
+        for linkURL in [destinationURL] + aliasDestinationURLs {
+            let linkPath = shellQuoted(linkURL.path)
+            let parentPath = shellQuoted(linkURL.deletingLastPathComponent().path)
+            segments.append("/bin/mkdir -p \(parentPath)")
+            segments.append("/bin/rm -f \(linkPath)")
+            segments.append("/bin/ln -s \(sourcePath) \(linkPath)")
+        }
+        try runPrivilegedShellCommand(segments.joined(separator: " && "))
     }
 
-    private static func uninstallWithAdministratorPrivileges(destinationURL: URL) throws {
-        let command = "/bin/rm -f \(shellQuoted(destinationURL.path))"
-        try runPrivilegedShellCommand(command)
+    private static func uninstallWithAdministratorPrivileges(
+        destinationURL: URL,
+        aliasDestinationURLs: [URL] = []
+    ) throws {
+        let paths = ([destinationURL] + aliasDestinationURLs).map { shellQuoted($0.path) }
+        try runPrivilegedShellCommand("/bin/rm -f \(paths.joined(separator: " "))")
     }
 
     private static func runPrivilegedShellCommand(_ command: String) throws {

@@ -594,6 +594,33 @@ final class SessionPersistenceTests: XCTestCase {
         XCTAssertEqual(contents, "line one\nline two\n")
     }
 
+    func testScrollbackReplayFileEndsWithNewlineWhenCaptureEndsOnPromptLine() {
+        // Regression: a captured scrollback that ends on the old prompt line has
+        // no trailing newline. The shell integration `cat`s this file before the
+        // first prompt; without a trailing newline the cursor stays mid-line and
+        // zsh draws its reverse-video "%" PROMPT_EOL_MARK before the restored
+        // prompt. The replay file must always end with exactly one newline.
+        let tempDir = FileManager.default.temporaryDirectory
+            .appendingPathComponent("cmux-scrollback-replay-\(UUID().uuidString)", isDirectory: true)
+        try? FileManager.default.createDirectory(at: tempDir, withIntermediateDirectories: true)
+        defer { try? FileManager.default.removeItem(at: tempDir) }
+
+        let environment = SessionScrollbackReplayStore.replayEnvironment(
+            for: "user@host project % ",
+            tempDirectory: tempDir
+        )
+
+        let path = environment[SessionScrollbackReplayStore.environmentKey]
+        XCTAssertNotNil(path)
+        guard let path else { return }
+        let contents = try? String(contentsOfFile: path, encoding: .utf8)
+        XCTAssertEqual(
+            contents,
+            "user@host project % \n",
+            "replay file must end with exactly one newline so cat leaves the cursor at column 0"
+        )
+    }
+
     func testScrollbackReplayEnvironmentSkipsWhitespaceOnlyContent() {
         let tempDir = FileManager.default.temporaryDirectory
             .appendingPathComponent("cmux-scrollback-replay-\(UUID().uuidString)", isDirectory: true)

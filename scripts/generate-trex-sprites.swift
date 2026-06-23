@@ -23,8 +23,8 @@ let eyeColor = color(0.04, 0.10, 0.05)    // near-black eye
 // 's'=shade, 'O'=eye, '.'=empty. Bottom leg rows are appended per frame.
 let body: [String] = [
     "............######..",
-    "...........#OOOO###.",
-    "...........#OOOO###.",
+    "...........#OO#####.",
+    "...........#OO#####.",
     "...........########.",
     "...........#####....",
     "...........#####....",

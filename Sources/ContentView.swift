@@ -1,6 +1,7 @@
 import AppKit
 import CmuxAppKitSupportUI
 import CmuxCommandPalette
+import CmuxMascot
 import CmuxCore
 import CmuxFeedback
 import CmuxFoundation
@@ -10606,6 +10607,15 @@ struct VerticalTabsSidebar: View {
                 .safeAreaInset(edge: .top, spacing: 0) {
                     Color.clear.frame(height: scrollInsets.top)
                         .allowsHitTesting(false)
+                }
+                .safeAreaInset(edge: .top, spacing: 0) {
+                    // T-Rex mascot strip: pinned above the project tabs, shown
+                    // while the mascot is toggled on (CmuxMascot). Sits above the
+                    // tab LazyVStack, so observing the @Observable controller here
+                    // is outside the snapshot boundary.
+                    if let mascot = AppDelegate.shared?.mascotController, mascot.isVisible {
+                        MascotStripView(controller: mascot)
+                    }
                 }
                 .safeAreaInset(edge: .bottom, spacing: 0) {
                     Color.clear.frame(height: scrollInsets.bottom)

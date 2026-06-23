@@ -3,6 +3,7 @@ import CmuxAppKitSupportUI
 import CmuxAuthRuntime
 import CmuxBrowser
 import CmuxCommandPalette
+import CmuxMascot
 import CmuxPanes
 import CmuxControlSocket
 import CmuxWindowing
@@ -511,6 +512,9 @@ final class AppDelegate: NSObject, NSApplicationDelegate, UNUserNotificationCent
     var aboutTitlebarDebugStore: AboutTitlebarDebugStore { debugWindowsCoordinator.aboutTitlebarStore }
     /// Coordinates remote tmux (`ssh … tmux -CC`) mirroring; composition-root owned.
     let remoteTmuxController = RemoteTmuxController()
+    /// Owns the T-Rex mascot (CmuxMascot); composition-root owned so the package
+    /// stays free of shared/global state. Driven by the `/mascot` palette command.
+    let mascotController = MascotController()
     private static let reloadConfigurationMenuItemIdentifier = NSUserInterfaceItemIdentifier("com.cmux.reloadConfiguration")
 
     private static let cachedIsRunningUnderXCTest = detectRunningUnderXCTest(ProcessInfo.processInfo.environment)

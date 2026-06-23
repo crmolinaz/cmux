@@ -1,0 +1,24 @@
+{
+  "sourceLanguage" : "en",
+  "strings" : {
+    "mascot.accessibilityLabel" : {
+      "comment" : "Accessibility label for the floating T-Rex mascot window.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "T-Rex mascot"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "T-Rex マスコット"
+          }
+        }
+      }
+    }
+  },
+  "version" : "1.0"
+}

@@ -44,13 +44,20 @@ public struct MascotStripView: View {
             mascot
                 .frame(height: 56)
                 .padding(.bottom, 2)
+
+            if controller.isAsleep {
+                ZzzView()
+                    .offset(x: 6, y: -8)
+                    .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
+                    .allowsHitTesting(false)
+            }
         }
         .frame(maxWidth: .infinity)
         .frame(height: Self.height)
         .clipped()
         .overlay(alignment: .bottom) { Divider().opacity(0.4) }
         .contentShape(Rectangle())
-        .onTapGesture { controller.wink() }
+        .onTapGesture { controller.poke() }
         .accessibilityElement()
         .accessibilityLabel(Text(
             String(
@@ -103,5 +110,33 @@ public struct MascotStripView: View {
             return Image(nsImage: nsImage)
         }
         return Image(systemName: "questionmark.square.dashed")
+    }
+}
+
+/// Three "z"s that drift up and fade, staggered, to signal the napping mascot.
+private struct ZzzView: View {
+    @State private var rising = false
+
+    var body: some View {
+        ZStack(alignment: .bottomLeading) {
+            z(size: 9, dx: 0, delay: 0)
+            z(size: 12, dx: 8, delay: 0.6)
+            z(size: 15, dx: 18, delay: 1.2)
+        }
+        .frame(width: 34, height: 30, alignment: .bottomLeading)
+        .onAppear { rising = true }
+    }
+
+    private func z(size: CGFloat, dx: CGFloat, delay: Double) -> some View {
+        Text("z")
+            .font(.system(size: size, weight: .heavy, design: .rounded))
+            .foregroundStyle(.white)
+            .shadow(color: .black.opacity(0.35), radius: 0.5, y: 0.5)
+            .offset(x: dx, y: rising ? -16 : 0)
+            .opacity(rising ? 0 : 1)
+            .animation(
+                .easeOut(duration: 1.8).repeatForever(autoreverses: false).delay(delay),
+                value: rising
+            )
     }
 }

@@ -72,10 +72,38 @@ rows.append(legRow)
 rows.append(foot)
 let height = rows.count
 
-func render(blink: Bool, lift: Int, to path: String) {
-    var grid = rows.map(Array.init)
-    if blink {
+// Sleeping pose: the dino lying on the grass, eyes closed, drawn at the bottom
+// of the same canvas so it swaps in without a size jump and sits low (napping).
+let sleepDino = [
+    "......6666......",
+    "....66111166....",
+    "..661111111166..",
+    ".61111111111116.",
+    "61111166111111116",
+    "61113331111111116",
+    "61133331111111116",
+    "66111111111111116",
+    ".661111111111166.",
+    "..66666666666666.",
+].map(padded)
+let sleepGrid: [String] = {
+    let topPad = height - sleepDino.count
+    let empty = String(repeating: ".", count: width)
+    return Array(repeating: empty, count: max(0, topPad)) + sleepDino
+}()
+
+enum EyeState { case normal, closed, squint }
+
+func render(_ source: [String], eye: EyeState, lift: Int, to path: String) {
+    var grid = source.map(Array.init)
+    switch eye {
+    case .normal:
+        break
+    case .closed:
         for (j, i) in [(3, 10), (3, 11), (4, 10), (4, 11)] { grid[j][i] = "5" }
+    case .squint:
+        // Drop the top row of the eye so it reads as a smaller, half-open eye.
+        for (j, i) in [(3, 10), (3, 11)] { grid[j][i] = "5" }
     }
     let cw = width * scale
     let ch = height * scale + padTop * 2
@@ -105,8 +133,21 @@ func render(blink: Bool, lift: Int, to path: String) {
     print("wrote \(path) (\(cw)x\(ch))")
 }
 
+// Yawn: standing, eyes closed, mouth opened wide (dark cavity carved into the
+// snout) — shown briefly when waking up.
+let yawnGrid: [String] = {
+    var g = rows.map(Array.init)
+    for (j, i) in [(5, 14), (5, 15), (6, 14), (6, 15), (6, 16), (7, 14), (7, 15)] {
+        if j < g.count, i < g[j].count { g[j][i] = "6" }
+    }
+    return g.map { String($0) }
+}()
+
 try? FileManager.default.createDirectory(atPath: outDir, withIntermediateDirectories: true)
-render(blink: false, lift: 0, to: "\(outDir)/trex-idle-0.png")
-render(blink: false, lift: 6, to: "\(outDir)/trex-idle-1.png")
-render(blink: true, lift: 0, to: "\(outDir)/trex-blink-0.png")
+render(rows, eye: .normal, lift: 0, to: "\(outDir)/trex-idle-0.png")
+render(rows, eye: .normal, lift: 6, to: "\(outDir)/trex-idle-1.png")
+render(rows, eye: .closed, lift: 0, to: "\(outDir)/trex-blink-0.png")
+render(sleepGrid, eye: .normal, lift: 0, to: "\(outDir)/trex-sleep-0.png")
+render(sleepGrid, eye: .normal, lift: 2, to: "\(outDir)/trex-sleep-1.png")
+render(yawnGrid, eye: .squint, lift: 0, to: "\(outDir)/trex-yawn-0.png")
 print("done")

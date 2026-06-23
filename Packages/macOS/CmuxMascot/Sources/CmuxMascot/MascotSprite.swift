@@ -6,13 +6,17 @@ import Foundation
 enum MascotClip: CaseIterable {
     case idle
     case blink
+    case sleep
+    case yawn
 
-    /// Frame asset basenames, in playback order. `idle` gently bobs; `blink` is
-    /// the eye-closed frame used for the tap "wink".
+    /// Frame asset basenames, in playback order. `idle`/`sleep` gently bob,
+    /// `blink` is the tap wink, `yawn` plays once on waking.
     var frameNames: [String] {
         switch self {
         case .idle: return ["trex-idle-0", "trex-idle-1"]
         case .blink: return ["trex-blink-0"]
+        case .sleep: return ["trex-sleep-0", "trex-sleep-1"]
+        case .yawn: return ["trex-yawn-0"]
         }
     }
 }
